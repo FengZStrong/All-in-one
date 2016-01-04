@@ -2,9 +2,13 @@ from flask import Flask
 from flask import request
 from flask import redirect
 from flask.ext.script import Manager
+from flask import render_template
+from flask.ext.bootstrap import Bootstrap
 
 app = Flask(__name__)
+
 manager = Manager(app)
+bootstrap = Bootstrap(app)
 
 @app.route('/')
 def index():
@@ -17,7 +21,7 @@ def redirect_fengz():
 
 @app.route('/user/<name>')
 def user(name):
-    return '<h1>Hello %s!</h1>' % name
+    return render_template('user.html', name = name)
 
 if __name__ == '__main__':
     #manager.run(host = '0.0.0.0', port = 8021, debug = True)
