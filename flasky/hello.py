@@ -11,13 +11,37 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import Required
 from flask import session, url_for
 from flask import flash
+from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
 app.config['SECRET_KEY'] = 'secret'
+app.config['SQLALCHEMY_DATABASE_URI'] =\
+    'mysql://root:zscha19900718@localhost/fengz'
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
 manager = Manager(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
+db = SQLAlchemy(app)
+
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    users = db.relationship('User', backref='role', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Role %r>' % self.name
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
+    def __repr__(self):
+        return '<User %r>' % self.username
 
 class NameForm(Form):
     name = StringField('What is your name?', validators = [Required()])
@@ -53,4 +77,5 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     #manager.run(host = '0.0.0.0', port = 8021, debug = True)
+    db.create_all()
     manager.run()
