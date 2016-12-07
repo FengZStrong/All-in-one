@@ -1,2 +1,2 @@
 # All-in-one
-备份一些琐碎的知识。
+Learn and test.
