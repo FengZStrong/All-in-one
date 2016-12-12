@@ -1,16 +1,27 @@
 #include <iostream>
+#include <fstream>
 #include "StrBlob.h"
+
+using namespace std;
 
 int main()
 {
-	StrBlob b1;
-	{
-		StrBlob b2 = {"a", "b", "c"};
-		b1 = b2;
-		b2.push_back("d");
-	}
-	std::cout << b1.size() << std::endl;
+	ifstream in("input");
 
-	const StrBlob cb = {"1", "2", "3"};
-	std::cout << "front: " << cb.front() << ", size: " << cb.size() << std::endl;
+	StrBlob sb;
+	string text;
+	while (getline(in, text))
+	{
+		sb.push_back(text);
+	}
+	StrBlobPtr sbs = sb.begin();
+	for (unsigned u = 0; u < sb.size(); sbs.incr(), ++u)
+	{
+		cout << sbs.deref() << endl;
+	}
+
+	const StrBlob csb = sb;
+	const StrBlobPtr aaa = csb.begin();
+
+	cout << aaa.deref() << endl;
 }

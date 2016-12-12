@@ -3,9 +3,12 @@
 #include <string>
 #include <initializer_list>
 
+class StrBlobPtr;
+
 class StrBlob
 {
 public:
+	friend class StrBlobPtr;
 	typedef std::vector<std::string>::size_type size_type;
 	StrBlob();
 	StrBlob(std::initializer_list<std::string> il);
@@ -18,6 +21,10 @@ public:
 	std::string& front();
 	std::string& front() const;
 	std::string& back();
+	StrBlobPtr begin();
+	const StrBlobPtr begin() const;
+	StrBlobPtr end();
+	StrBlobPtr end() const;
 
 private:
 	std::shared_ptr<std::vector<std::string>> data;
@@ -30,6 +37,7 @@ class StrBlobPtr
 public:
 	StrBlobPtr() : curr(0) {}
 	StrBlobPtr(StrBlob &a, size_t sz = 0) : wptr(a.data), curr(sz) {}
+	StrBlobPtr(const StrBlob &a, size_t sz = 0) : wptr(a.data), curr(sz) {}
 	std::string& deref() const;
 	StrBlobPtr& incr();
 private:

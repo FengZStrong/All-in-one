@@ -38,7 +38,24 @@ string& StrBlob::back()
 	return data->back();
 }
 
-//***************Class StrBlobPtr******************
+StrBlobPtr StrBlob::begin()
+{
+	return StrBlobPtr(*this, 0);
+}
+
+const StrBlobPtr StrBlob::begin() const
+{
+	return StrBlobPtr(*this, 0);
+}
+
+StrBlobPtr StrBlob::end()
+{
+	return StrBlobPtr(*this, data->size());
+}
+
+//******************
+//Class StrBlobPtr
+//******************
 
 std::shared_ptr<std::vector<std::string>> StrBlobPtr::check(std::size_t sz, const std::string &msg) const
 {
@@ -48,4 +65,17 @@ std::shared_ptr<std::vector<std::string>> StrBlobPtr::check(std::size_t sz, cons
 	if (sz > ret->size())
 		throw std::out_of_range(msg);
 	return ret;
+}
+
+std::string& StrBlobPtr::deref() const
+{
+	auto p = check(curr, "dereference past end");
+	return (*p)[curr];
+}
+
+StrBlobPtr& StrBlobPtr::incr()
+{
+	check(curr, "++");
+	++curr;
+	return *this;
 }
