@@ -1,4 +1,3 @@
-#include <iostream>
 #include "HasPtr.h"
 
 int main()
