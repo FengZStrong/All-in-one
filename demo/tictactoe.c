@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 typedef struct {
-	int borad[3][3];
-	int turn;
+	int borad[3][3];	// -1 = empty, 0 = O, 1 = X
+	int turn;			// O first
 } state;
 
 void init(state* s) {
@@ -62,8 +62,8 @@ void human(state* s) {
 int evaluate(const state* s) {
 	int i;
 	for (i = 0; i < 3; i++) {
-		CHECK(i, 0, i, 1, i, 2);
-		CHECK(0, i, 1, i, 2, i);
+		CHECK(i, 0, i, 1, i, 2);	// horizontal
+		CHECK(0, i, 1, i, 2, i);	// vertical
 	}
 
 	CHECK(0, 0, 1, 1, 2, 2);        // diagonal
