@@ -67,7 +67,7 @@ int evaluate(const state* s) {
 	}
 
 	CHECK(0, 0, 1, 1, 2, 2);        // diagonal
-	CHECK(0, 2, 1, 1, 2, 0); 
+	CHECK(0, 2, 1, 1, 2, 0);		// diagonal
 
 	return 0;
 }
