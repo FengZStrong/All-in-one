@@ -8,6 +8,8 @@ int main()
 		StrBlob b2 = {"a", "b", "c"};
 		b1 = b2;
 		b2.push_back("d");
+		std::cout << b1.size() << std::endl;
+		std::cout << b2.size() << std::endl;
 	}
 	std::cout << b1.size() << std::endl;
 
