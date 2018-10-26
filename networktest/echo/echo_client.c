@@ -16,7 +16,7 @@ void error_handling(char* message) {
 int main(int argc, char* argv[]) {
     int sock;
     char message[BUF_SIZE];
-    int str_len;
+    int str_len, recv_len, recv_cnt;
     struct sockaddr_in serv_addr;
 
     if (argc != 3) {
@@ -48,8 +48,15 @@ int main(int argc, char* argv[]) {
             break;
         }
 
-        write(sock, message, strlen(message));
-        str_len = read(sock, message, BUF_SIZE - 1);
+        str_len = write(sock, message, strlen(message));
+        recv_len = 0;
+        memset(message, 0, sizeof(char) * BUF_SIZE);
+        while (recv_len < str_len) {
+            if ((recv_cnt = read(sock, message, BUF_SIZE - 1)) == -1) {
+                error_handling("read() error");
+            }
+            recv_len += recv_cnt;
+        }
         message[str_len] = 0;
         printf("Message from server: %s", message);
     }
